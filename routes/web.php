@@ -37,8 +37,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Integrasi & Sync Bank Data API
     Route::get('/bank-data', [BankDataSyncController::class, 'index'])->name('bank-data.index');
-    Route::get('/bank-data/test', [BankDataSyncController::class, 'testConnection'])->name('bank-data.test');
-    Route::post('/bank-data/sync', [BankDataSyncController::class, 'syncNow'])->name('bank-data.sync');
+    Route::match(['get', 'post'], '/bank-data/test', [BankDataSyncController::class, 'testConnection'])->name('bank-data.test');
+    Route::match(['get', 'post'], '/bank-data/sync', [BankDataSyncController::class, 'syncNow'])->name('bank-data.sync');
 
     // AJAX Proxy API for Bank Data
     Route::get('/api-proxy/kelas', [BankDataProxyController::class, 'getKelas'])->name('api.kelas');
