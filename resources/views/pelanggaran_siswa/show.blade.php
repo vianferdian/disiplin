@@ -70,8 +70,16 @@
 
                 @if($pelanggaranSiswa->catatan_keterangan)
                     <div class="mt-3 p-3 bg-light rounded border">
-                        <strong class="d-block text-dark mb-1 fs-13">Catatan / Kronologi:</strong>
-                        <p class="mb-0 text-muted fs-13">{{ $pelanggaranSiswa->catatan_keterangan }}</p>
+                        <strong class="d-block text-dark mb-2 fs-13"><i class="fa fa-list-check me-1 text-primary"></i> Rincian & Catatan Pelanggaran:</strong>
+                        @if(!empty($pelanggaranSiswa->rincian_items))
+                            <ul class="mb-0 ps-3 text-dark fs-13" style="list-style-type: disc;">
+                                @foreach($pelanggaranSiswa->rincian_items as $item)
+                                    <li class="mb-1"><span class="font-w600 text-black">{{ $item }}</span></li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="mb-0 text-muted fs-13">{{ $pelanggaranSiswa->catatan_keterangan }}</p>
+                        @endif
                     </div>
                 @endif
             </div>

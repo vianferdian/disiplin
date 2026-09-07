@@ -49,4 +49,23 @@ class PelanggaranSiswa extends Model
 
         return $this->jenisPelanggaran->nama_pelanggaran ?? '-';
     }
+
+    public function getRincianItemsAttribute(): array
+    {
+        if (!$this->catatan_keterangan) {
+            return [];
+        }
+
+        if (str_contains($this->catatan_keterangan, ':')) {
+            $parts = explode(':', $this->catatan_keterangan, 2);
+            $itemsPart = trim($parts[1]);
+            if (str_contains($itemsPart, '| Catatan:')) {
+                $itemsPart = trim(explode('| Catatan:', $itemsPart)[0]);
+            }
+            $items = array_map('trim', explode(',', $itemsPart));
+            return array_values(array_filter($items));
+        }
+
+        return [];
+    }
 }

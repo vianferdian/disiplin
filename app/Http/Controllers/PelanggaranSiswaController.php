@@ -120,7 +120,8 @@ class PelanggaranSiswaController extends Controller
             $primaryJenis = $jenisList->first();
 
             if ($itemCount > 1) {
-                $catatanCombined = "Tidak Sesuai Ketentuan Seragam ({$itemCount} Item)";
+                $itemListStr = $jenisList->pluck('nama_pelanggaran')->implode(', ');
+                $catatanCombined = "Pelanggaran Seragam ({$itemCount} Item): {$itemListStr}";
             } else {
                 $catatanCombined = $primaryJenis->nama_pelanggaran;
             }
@@ -170,7 +171,12 @@ class PelanggaranSiswaController extends Controller
         if ($existing) {
             // Gabungkan ke record yang sudah ada
             $existing->poin_pelanggaran += $jenis->poin;
-            $existing->catatan_keterangan = "Tidak Sesuai Ketentuan Seragam";
+            $existingCatatan = $existing->catatan_keterangan ?? '';
+            if (str_contains($existingCatatan, ':')) {
+                $existing->catatan_keterangan = $existingCatatan . ", " . $jenis->nama_pelanggaran;
+            } else {
+                $existing->catatan_keterangan = "Pelanggaran Seragam (2 Item): " . ($existing->jenisPelanggaran->nama_pelanggaran ?? 'Pelanggaran') . ", " . $jenis->nama_pelanggaran;
+            }
             if (!empty($validated['catatan_keterangan'])) {
                 $existing->catatan_keterangan .= " | " . $validated['catatan_keterangan'];
             }
@@ -217,10 +223,15 @@ class PelanggaranSiswaController extends Controller
             $first = $records->first();
             $totalPoin = $records->sum('poin_pelanggaran');
 
-            $combinedNotes = "Tidak Sesuai Ketentuan Seragam (" . $records->count() . " Item)";
-            if ($first->catatan_keterangan && !str_contains($first->catatan_keterangan, 'Tidak Sesuai Ketentuan Seragam')) {
-                $combinedNotes .= " | " . $first->catatan_keterangan;
-            }
+            $itemNames = $records->map(function ($r) {
+                if ($r->catatan_keterangan && str_contains($r->catatan_keterangan, ':')) {
+                    $parts = explode(':', $r->catatan_keterangan, 2);
+                    return trim(explode('|', $parts[1])[0]);
+                }
+                return $r->jenisPelanggaran->nama_pelanggaran ?? null;
+            })->filter()->implode(', ');
+
+            $combinedNotes = "Pelanggaran Seragam (" . $records->count() . " Item): " . $itemNames;
 
             $first->update([
                 'poin_pelanggaran' => $totalPoin,

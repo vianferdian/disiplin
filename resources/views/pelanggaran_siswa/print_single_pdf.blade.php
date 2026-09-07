@@ -162,8 +162,18 @@
         </tr>
         @if($pelanggaranSiswa->catatan_keterangan)
         <tr>
-            <td class="info-label">Catatan / Kronologi:</td>
-            <td class="info-value" colspan="3"><em>{{ $pelanggaranSiswa->catatan_keterangan }}</em></td>
+            <td class="info-label">Rincian Pelanggaran / Catatan:</td>
+            <td class="info-value" colspan="3">
+                @if(!empty($pelanggaranSiswa->rincian_items))
+                    <ul style="margin: 0; padding-left: 15px;">
+                        @foreach($pelanggaranSiswa->rincian_items as $item)
+                            <li><strong>{{ $item }}</strong></li>
+                        @endforeach
+                    </ul>
+                @else
+                    <em>{{ $pelanggaranSiswa->catatan_keterangan }}</em>
+                @endif
+            </td>
         </tr>
         @endif
     </table>
