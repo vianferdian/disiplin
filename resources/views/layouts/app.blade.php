@@ -34,6 +34,10 @@
                 width: 15rem !important;
                 height: 4.25rem !important;
             }
+            #main-wrapper:not(.menu-toggle) .nav-header .brand-logo {
+                padding-left: 1.5rem !important;
+                justify-content: flex-start !important;
+            }
             #main-wrapper:not(.menu-toggle) .deznav {
                 width: 15rem !important;
                 top: 4.25rem !important;
