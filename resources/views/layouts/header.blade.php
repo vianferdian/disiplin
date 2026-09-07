@@ -3,12 +3,11 @@
 ***********************************-->
 <div class="nav-header">
     <a href="{{ route('dashboard') }}" class="brand-logo d-flex align-items-center">
-        <div class="logo-abbr me-3 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; min-width: 38px;">
+        <div class="logo-abbr d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; min-width: 38px;">
             <img src="{{ asset('assets/images/logo-smk.png') }}" alt="Logo SMK" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         </div>
-        <div class="brand-title text-start" style="padding-left: 2px;">
-            <span class="d-block" style="font-weight: 800; font-size: 19px; letter-spacing: 0.8px; color: #1E33F2; line-height: 1.1;">DISIPLIN</span>
-            <small class="d-block text-muted font-w600" style="font-size: 9.5px; white-space: nowrap; line-height: 1.1; margin-top: 3px;">Sistem Kedisiplinan Siswa</small>
+        <div class="brand-title d-flex align-items-center">
+            <img src="{{ asset('assets/images/disiplin-logo-full.png') }}" alt="DISIPLIN" style="max-height: 42px; width: auto; max-width: 175px; object-fit: contain;">
         </div>
     </a>
 

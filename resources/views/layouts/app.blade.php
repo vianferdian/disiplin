@@ -35,8 +35,14 @@
                 height: 4.25rem !important;
             }
             #main-wrapper:not(.menu-toggle) .nav-header .brand-logo {
-                padding-left: 1.5rem !important;
+                padding-left: 1.25rem !important;
                 justify-content: flex-start !important;
+            }
+            #main-wrapper:not(.menu-toggle) .nav-header .logo-abbr {
+                display: none !important;
+            }
+            #main-wrapper:not(.menu-toggle) .nav-header .brand-title {
+                display: flex !important;
             }
             #main-wrapper:not(.menu-toggle) .deznav {
                 width: 15rem !important;
@@ -62,13 +68,14 @@
             #main-wrapper.menu-toggle .nav-header .brand-title {
                 display: none !important;
             }
+            #main-wrapper.menu-toggle .nav-header .logo-abbr {
+                display: flex !important;
+                margin-right: 0 !important;
+            }
             #main-wrapper.menu-toggle .nav-header .brand-logo {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
                 justify-content: center !important;
-            }
-            #main-wrapper.menu-toggle .nav-header .logo-abbr {
-                margin-right: 0 !important;
             }
             #main-wrapper.menu-toggle .deznav {
                 width: 5rem !important;
@@ -112,6 +119,10 @@
             }
             .nav-header .brand-title {
                 display: none !important;
+            }
+            .nav-header .logo-abbr {
+                display: flex !important;
+                margin-right: 0 !important;
             }
             .nav-header .brand-logo {
                 padding-left: 0 !important;
