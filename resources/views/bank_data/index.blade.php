@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Kesalahan Sistem',
-                    text: 'Terjadi kesalahan saat proses sinkronisasi.',
+                    text: err.message || 'Terjadi kesalahan saat proses sinkronisasi.',
                     confirmButtonColor: '#dc2626',
                     customClass: { popup: 'rounded-4 shadow-lg border-0' }
                 });

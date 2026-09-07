@@ -37,7 +37,7 @@ class BankDataService
         }
 
         try {
-            $response = Http::withHeaders([
+            $response = Http::withoutVerifying()->withHeaders([
                 'X-Client-ID' => $this->clientId,
                 'X-Client-Secret' => $this->clientSecret,
                 'Accept' => 'application/json',
@@ -78,13 +78,16 @@ class BankDataService
             return ['success' => true, 'count' => 0, 'message' => 'Mode Mock aktif.'];
         }
 
+        @set_time_limit(300);
+        @ini_set('memory_limit', '512M');
+
         try {
             $page = 1;
             $lastPage = 1;
             $syncedCount = 0;
 
             do {
-                $response = Http::withHeaders([
+                $response = Http::withoutVerifying()->withHeaders([
                     'X-Client-ID' => $this->clientId,
                     'X-Client-Secret' => $this->clientSecret,
                     'Accept' => 'application/json',
@@ -94,6 +97,7 @@ class BankDataService
                 ]);
 
                 if (!$response->successful()) {
+                    Log::warning("BankDataSync failed at page {$page} with status " . $response->status());
                     break;
                 }
 
@@ -101,36 +105,42 @@ class BankDataService
                 $students = $json['data'] ?? [];
                 $lastPage = $json['meta']['last_page'] ?? $page;
 
-                foreach ($students as $item) {
-                    $namaKelas = $item['class']['name'] ?? 'Unassigned';
-                    $jurusan = $item['class']['major'] ?? '';
+                if (!empty($students)) {
+                    \Illuminate\Support\Facades\DB::transaction(function () use ($students, &$syncedCount) {
+                        foreach ($students as $item) {
+                            if (empty($item['nisn'])) continue;
 
-                    // Determine Tingkat (X, XI, XII)
-                    $tingkat = 'Lainnya';
-                    if (preg_match('/^XII\b/i', $namaKelas)) {
-                        $tingkat = 'XII';
-                    } elseif (preg_match('/^XI\b/i', $namaKelas)) {
-                        $tingkat = 'XI';
-                    } elseif (preg_match('/^X\b/i', $namaKelas)) {
-                        $tingkat = 'X';
-                    }
+                            $namaKelas = $item['class']['name'] ?? 'Unassigned';
+                            $jurusan = $item['class']['major'] ?? '';
 
-                    BankDataSiswa::updateOrCreate(
-                        ['nisn' => $item['nisn']],
-                        [
-                            'uuid' => $item['uuid'] ?? null,
-                            'nis' => $item['nis'] ?? null,
-                            'nama' => $item['full_name'] ?? 'Tanpa Nama',
-                            'gender' => $item['gender'] ?? 'L',
-                            'kelas' => $namaKelas,
-                            'tingkat' => $tingkat,
-                            'jurusan' => $jurusan,
-                            'status' => $item['status'] ?? 'Aktif',
-                            'last_synced_at' => now(),
-                        ]
-                    );
+                            // Determine Tingkat (X, XI, XII)
+                            $tingkat = 'Lainnya';
+                            if (preg_match('/^XII\b/i', $namaKelas)) {
+                                $tingkat = 'XII';
+                            } elseif (preg_match('/^XI\b/i', $namaKelas)) {
+                                $tingkat = 'XI';
+                            } elseif (preg_match('/^X\b/i', $namaKelas)) {
+                                $tingkat = 'X';
+                            }
 
-                    $syncedCount++;
+                            BankDataSiswa::updateOrCreate(
+                                ['nisn' => $item['nisn']],
+                                [
+                                    'uuid' => $item['uuid'] ?? null,
+                                    'nis' => $item['nis'] ?? null,
+                                    'nama' => $item['full_name'] ?? 'Tanpa Nama',
+                                    'gender' => $item['gender'] ?? 'L',
+                                    'kelas' => $namaKelas,
+                                    'tingkat' => $tingkat,
+                                    'jurusan' => $jurusan,
+                                    'status' => $item['status'] ?? 'Aktif',
+                                    'last_synced_at' => now(),
+                                ]
+                            );
+
+                            $syncedCount++;
+                        }
+                    });
                 }
 
                 $page++;
