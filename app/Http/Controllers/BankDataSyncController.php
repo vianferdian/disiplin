@@ -28,7 +28,15 @@ class BankDataSyncController extends Controller
             'XII' => BankDataSiswa::where('tingkat', 'XII')->count(),
         ];
 
-        $testResult = $this->bankDataService->testConnection();
+        try {
+            $testResult = $this->bankDataService->testConnection();
+        } catch (\Throwable $e) {
+            $testResult = [
+                'success' => false,
+                'message' => 'Gagal menguji koneksi API: ' . $e->getMessage(),
+                'http_code' => 500,
+            ];
+        }
 
         return view('bank_data.index', compact(
             'totalSiswaLocal',
