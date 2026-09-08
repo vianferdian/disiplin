@@ -15,7 +15,11 @@
 
     <style>
         body {
-            background-color: #f4f6f9;
+            background-image: url("{{ asset('assets/images/login-bg.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             font-family: 'Plus Jakarta Sans', sans-serif;
             display: flex;
             align-items: center;
@@ -24,13 +28,15 @@
             margin: 0;
         }
         .minimal-login-card {
-            background: #ffffff;
-            border-radius: 16px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px -15px rgba(30, 51, 242, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
             width: 100%;
-            max-width: 400px;
-            padding: 40px 32px;
+            max-width: 410px;
+            padding: 42px 36px;
         }
         .brand-icon {
             width: 44px;
