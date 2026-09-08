@@ -28,15 +28,16 @@
             margin: 0;
         }
         .minimal-login-card {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 40px -15px rgba(30, 51, 242, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+            background: #ffffff !important;
+            border-radius: 22px !important;
+            border: 1.5px solid #cbd5e1 !important;
+            border-top: 5px solid #1E33F2 !important;
+            box-shadow: 0 25px 60px -15px rgba(30, 51, 242, 0.22), 0 15px 35px -10px rgba(15, 23, 42, 0.1) !important;
             width: 100%;
-            max-width: 410px;
+            max-width: 415px;
             padding: 42px 36px;
+            position: relative;
+            z-index: 10;
         }
         .brand-icon {
             width: 44px;
