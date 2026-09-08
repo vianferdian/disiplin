@@ -264,35 +264,35 @@ class BankDataService
      */
     public function getSiswa(?string $kelas = null, ?string $search = null): array
     {
-        // Use local DB if synced
-        if (BankDataSiswa::count() > 0) {
-            $query = BankDataSiswa::query();
+        $query = BankDataSiswa::query();
 
-            if (!empty($kelas)) {
-                $query->where('kelas', $kelas);
-            }
+        if (!empty($kelas)) {
+            $query->where('kelas', $kelas);
+        }
 
-            if (!empty($search)) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%")
-                      ->orWhere('nis', 'like', "%{$search}%")
-                      ->orWhere('nisn', 'like', "%{$search}%");
-                });
-            }
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('nis', 'like', "%{$search}%")
+                  ->orWhere('nisn', 'like', "%{$search}%");
+            });
+            $query->limit(25);
+        }
 
-            return $query->orderBy('nama')
-                ->get(['nisn', 'nis', 'nama', 'kelas', 'gender as jenis_kelamin'])
-                ->map(function ($s) {
-                    $nisValue = !empty($s->nis) ? $s->nis : $s->nisn;
-                    return [
-                        'nisn' => $nisValue,
-                        'nis' => $nisValue,
-                        'nama' => $s->nama,
-                        'kelas' => $s->kelas,
-                        'jenis_kelamin' => $s->jenis_kelamin,
-                    ];
-                })
-                ->toArray();
+        $results = $query->orderBy('nama')
+            ->get(['nisn', 'nis', 'nama', 'kelas', 'gender as jenis_kelamin']);
+
+        if ($results->isNotEmpty()) {
+            return $results->map(function ($s) {
+                $nisValue = !empty($s->nis) ? $s->nis : $s->nisn;
+                return [
+                    'nisn' => $nisValue,
+                    'nis' => $nisValue,
+                    'nama' => $s->nama,
+                    'kelas' => $s->kelas,
+                    'jenis_kelamin' => $s->jenis_kelamin,
+                ];
+            })->toArray();
         }
 
         if ($this->mockMode) {

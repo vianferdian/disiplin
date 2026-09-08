@@ -145,7 +145,7 @@ class PelanggaranSiswaController extends Controller
 
             $this->consolidateDuplicates();
 
-            return redirect()->route('pelanggaran-siswa.index')
+            return redirect()->route('pelanggaran-siswa.create')
                 ->with('success', "Berhasil menyimpan 1 catatan pelanggaran seragam ({$itemCount} item, total +{$totalPoin} Poin) untuk {$validated['siswa_nama']}!");
         }
 
@@ -197,7 +197,7 @@ class PelanggaranSiswaController extends Controller
 
         $this->consolidateDuplicates();
 
-        return redirect()->route('pelanggaran-siswa.index')
+        return redirect()->route('pelanggaran-siswa.create')
             ->with('success', "Pencatatan pelanggaran siswa ({$validated['siswa_nama']}) berhasil disimpan!");
     }
 
