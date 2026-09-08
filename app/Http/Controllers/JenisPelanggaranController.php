@@ -21,7 +21,7 @@ class JenisPelanggaranController extends Controller
             'kategori_id' => 'required|exists:kategori_pelanggarans,id',
             'kode_pelanggaran' => 'nullable|string|max:50|unique:jenis_pelanggarans,kode_pelanggaran',
             'nama_pelanggaran' => 'required|string|max:255',
-            'poin' => 'required|integer|min:1',
+            'poin' => 'required|integer|min:0',
             'sanksi_default' => 'nullable|string',
             'deskripsi' => 'nullable|string',
         ]);
@@ -38,7 +38,7 @@ class JenisPelanggaranController extends Controller
             'kategori_id' => 'required|exists:kategori_pelanggarans,id',
             'kode_pelanggaran' => 'nullable|string|max:50|unique:jenis_pelanggarans,kode_pelanggaran,' . $jenisPelanggaran->id,
             'nama_pelanggaran' => 'required|string|max:255',
-            'poin' => 'required|integer|min:1',
+            'poin' => 'required|integer|min:0',
             'sanksi_default' => 'nullable|string',
             'deskripsi' => 'nullable|string',
         ]);

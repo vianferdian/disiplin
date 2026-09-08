@@ -42,7 +42,7 @@
                     <input type="hidden" name="input_mode" id="input_mode" value="uniform_checklist">
 
                     <!-- STEP 1: SISWA & KELAS (LIVE SEARCH & AUTO FILL KELAS) -->
-                    <div class="bg-light p-3 p-md-4 rounded-3 mb-4 border">
+                    <div class="form-step-card p-3 p-md-4 mb-4">
                         <div class="d-flex align-items-center mb-3">
                             <span class="badge bg-primary text-white rounded-circle me-2 font-w700" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">1</span>
                             <h6 class="mb-0 font-w700 text-black">IDENTITAS SISWA & KELAS</h6>
@@ -115,7 +115,7 @@
                     </div>
 
                     <!-- STEP 2A: MODE INSPEKSI SERAGAM HARIAN (SENIN - JUMAT) -->
-                    <div id="sectionModeUniform" class="bg-light p-3 rounded-3 mb-4 border">
+                    <div id="sectionModeUniform" class="form-step-card p-3 p-md-4 mb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                             <div class="d-flex align-items-center">
                                 <span class="badge bg-primary text-white rounded-circle me-2 font-w700" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">2</span>
@@ -157,7 +157,7 @@
                                                         <small class="text-muted fs-11">Klik untuk mencatat pelanggaran ini</small>
                                                     </div>
                                                 </div>
-                                                <span class="badge bg-danger text-white font-w700 fs-12 px-3 py-2 rounded-pill" style="min-width: 70px;">+{{ $item->poin }} Poin</span>
+                                                <span class="badge {{ $item->poin > 0 ? 'bg-danger text-white' : 'bg-secondary text-white' }} font-w700 fs-12 px-3 py-2 rounded-pill" style="min-width: 70px;">{{ $item->poin > 0 ? '+'.$item->poin : '0' }} Poin</span>
                                             </label>
                                         </div>
                                     @empty
@@ -183,7 +183,7 @@
                     </div>
 
                     <!-- STEP 2B: MODE STANDARD PELANGGARAN UMUM -->
-                    <div id="sectionModeStandard" class="bg-light p-3 rounded-3 mb-4 border d-none">
+                    <div id="sectionModeStandard" class="form-step-card p-3 p-md-4 mb-4 d-none">
                         <div class="d-flex align-items-center mb-3">
                             <span class="badge bg-primary text-white rounded-circle me-2 font-w700" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">2</span>
                             <h6 class="mb-0 font-w700 text-black">PILIH JENIS PELANGGARAN UMUM</h6>
@@ -198,7 +198,7 @@
                                         data-poin="{{ $jenis->poin }}" 
                                         data-kategori="{{ $jenis->kategori->nama_kategori ?? '-' }}"
                                         data-sanksi="{{ $jenis->sanksi_default ?? 'Teguran' }}">
-                                        [{{ $jenis->kategori->nama_kategori ?? 'Umum' }}] {{ $jenis->nama_pelanggaran }} (+{{ $jenis->poin }} Poin)
+                                        [{{ $jenis->kategori->nama_kategori ?? 'Umum' }}] {{ $jenis->nama_pelanggaran }} ({{ $jenis->poin > 0 ? '+'.$jenis->poin : '0' }} Poin)
                                     </option>
                                 @endforeach
                             </select>
@@ -223,7 +223,7 @@
                     </div>
 
                     <!-- STEP 3: TANGGAL & CATATAN -->
-                    <div class="bg-light p-3 rounded-3 mb-4 border">
+                    <div class="form-step-card p-3 p-md-4 mb-4">
                         <div class="d-flex align-items-center mb-3">
                             <span class="badge bg-primary text-white rounded-circle me-2 font-w700" style="width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;">3</span>
                             <h6 class="mb-0 font-w700 text-black">WAKTU & CATATAN KETERANGAN</h6>
@@ -271,6 +271,12 @@
 
 @push('styles')
 <style>
+    .form-step-card {
+        background-color: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 14px !important;
+    }
     .uniform-card-selector {
         background: #ffffff !important;
         cursor: pointer !important;

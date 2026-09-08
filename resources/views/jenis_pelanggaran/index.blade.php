@@ -96,7 +96,7 @@
                                                         </div>
                                                         <div class="col-md-4 mb-3">
                                                             <label class="form-label font-w600 text-black">Bobot Poin</label>
-                                                            <input type="number" name="poin" class="form-control" value="{{ $item->poin }}" min="1" required>
+                                                            <input type="number" name="poin" class="form-control" value="{{ $item->poin }}" min="0" required>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
@@ -160,7 +160,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label class="form-label font-w600 text-black">Bobot Poin <span class="text-danger">*</span></label>
-                            <input type="number" name="poin" class="form-control" value="10" min="1" required>
+                            <input type="number" name="poin" class="form-control" value="10" min="0" required>
                         </div>
                     </div>
                     <div class="mb-3">
